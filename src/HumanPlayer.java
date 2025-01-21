@@ -4,8 +4,8 @@ import java.io.InputStreamReader;
 
 public class HumanPlayer extends Player{
 
-    public HumanPlayer(String representation) {
-        super(representation);
+    public HumanPlayer(String symbol) {
+        super(symbol);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class HumanPlayer extends Player{
                 //Transforme coordonnée 2D en 1D
                 int position = super.getCoordinate(coordonneeX, coordonneeY);
                 //Check case vide
-                if(game.board[position].getRepresentation().equals("|   ")) {
+                if(game.board[position].getOwner() == null) {
                     return position;
                 } else {
                     view.messageError("Erreur: Veuillez entrer une coordonnée qui n'est pas déjà utilisée");

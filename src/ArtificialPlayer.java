@@ -7,9 +7,9 @@ public class ArtificialPlayer extends Player {
     public enum Level {EASY,MEDIUM,HARD };
     private Level IADifficulty;
 
-    public ArtificialPlayer(String representation) {
-        super(representation);
-        this.IADifficulty = Level.MEDIUM;
+    public ArtificialPlayer(String symbol) {
+        super(symbol);
+        this.IADifficulty = Level.EASY;
     }
 
     @Override
@@ -22,11 +22,11 @@ public class ArtificialPlayer extends Player {
                 case MEDIUM:
 
                     Cell[] copyBoard = game.board;
-                    //this.changeRepresentation();
+                    //this.changeSymbol();
                    // for(Cell cell : copyBoard) {
                         for(int i=0; i<copyBoard.length; i++) {
                             if(copyBoard[i].getRepresentation().equals("|   ")) {
-                                game.setOwner(i, this);
+                                game.board[i].setOwner(this);
                                 if (game.isOver(copyBoard)) {
                                     System.out.println("La case [" + i + "]: permet une victoire");
                                 } else {
@@ -49,11 +49,11 @@ public class ArtificialPlayer extends Player {
         return position;
     }
 
-    private void changeRepresentation() {
-        if(super.getRepresentation().equals("| X ")) {
-            super.setRepresentation("| O ");
+    private void changeSymbol() {
+        if(super.getSymbol().equals("| X ")) {
+            super.setSymbol("O");
         } else {
-            super.setRepresentation("| X ");
+            super.setSymbol("X");
         }
     }
 
@@ -64,7 +64,7 @@ public class ArtificialPlayer extends Player {
             coordonneeY = (int) (Math.random() * 3);
             //Transforme coordonnée 2D en 1D
             position = super.getCoordinate(coordonneeX, coordonneeY);
-            if(game.board[position].getRepresentation().equals("|   ")) {
+            if(game.board[position].getOwner() == null) {
                 return position;
             }
         } while (true);

@@ -1,25 +1,32 @@
 abstract public class Player {
 
-    private String representation;
+    private String symbol = null;
     private String name = null;
     protected View view = new View();
+
+    // Constructeur
+    public Player(String symbol) {
+        this.symbol = symbol;
+        this.name = (symbol == "X") ? "joueur1" : "joueur2";
+    }
 
     public String getName() {
         return name;
     }
 
-    public Player(String representation) {
-        this.representation = representation;
-        this.name = (representation == "| X ") ? "joueur1" : "joueur2";
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getRepresentation() {
-        return this.representation;
+    public String getSymbol() {
+        return this.symbol;
     }
 
-    protected void setRepresentation(String representation) {
-        if (representation == "| X " || representation == "| O ") {
-            this.representation = representation;
+    protected void setSymbol(String symbol) {
+        if (symbol.toUpperCase().equals('X') || symbol.toUpperCase().equals('O')) {
+            this.symbol = symbol;
+        } else {
+            view.messageError("Le symbole: \"" + symbol + "\" est inconnu.");
         }
     }
 

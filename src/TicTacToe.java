@@ -30,7 +30,7 @@ public class TicTacToe {
 
         while (true) {
             position = currentPlayer.getMoveFromPlayer(this);
-            this.setOwner(position, currentPlayer);
+            board[position].setOwner(currentPlayer);
             view.display(board);
             if (isOver(board)) {
                 interactionUtilisateur.announceWinner(currentPlayer);
@@ -44,11 +44,11 @@ public class TicTacToe {
     private Player[] initializePlayers(int gameType) {
         switch (gameType) {
             case 1:
-                return new Player[]{ new HumanPlayer("| X "), new HumanPlayer("| O ") };
+                return new Player[]{ new HumanPlayer("X"), new HumanPlayer("O") };
             case 2:
-                return new Player[]{ new HumanPlayer("| X "), new ArtificialPlayer("| O ") };
+                return new Player[]{ new HumanPlayer("X"), new ArtificialPlayer("O") };
             case 3:
-                return new Player[]{ new ArtificialPlayer("| X "), new ArtificialPlayer("| O ") };
+                return new Player[]{ new ArtificialPlayer("X"), new ArtificialPlayer("O") };
             default:
                 view.messageError("PAS COMPRIS");
                 return new Player[]{};
@@ -88,12 +88,6 @@ public class TicTacToe {
             return true;
         }
         return false;
-    }
-
-    //Ecrit le schéma du joueur dans la case choisie
-    public void setOwner(int position, Player player) {
-
-        board[position].setRepresentation(player.getRepresentation());
     }
 
 }
