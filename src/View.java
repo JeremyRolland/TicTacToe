@@ -5,15 +5,14 @@ public class View {
     public static final String ANSI_BLUE = "\u001B[34m";
 
     //Affiche le plateau de jeu
-    public void display(Cell [] board) {
+    public void display(Cell[][] board) {
         for(int i=0; i<board.length; i++) {
-            if(i % 3 == 0 && i != 0) {
-                System.out.println("|");
+            for(int j=0; j<board[i].length; j++) {
+                System.out.print(ANSI_BLUE + board[i][j].getRepresentation());
             }
-            System.out.print(ANSI_BLUE + board[i].getRepresentation());
+            System.out.println("|");
         }
-        System.out.println("|");
-        System.out.print("\n");
+        System.out.println();
     }
 
     public void askCoordinate(char coordinate) {

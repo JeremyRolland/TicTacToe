@@ -10,7 +10,7 @@ public class HumanPlayer extends Player{
 
     @Override
     //Récupère le choix du joueur pour case vide
-    public int getMoveFromPlayer(TicTacToe game) {
+    public int[] getMoveFromPlayer(TicTacToe game) {
         int coordonneeX = -1, coordonneeY = -1;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         do {
@@ -22,11 +22,9 @@ public class HumanPlayer extends Player{
                 view.askCoordinate('y');
                 //On s'assure que c'est un nombre
                 coordonneeY = Integer.parseInt(br.readLine());
-                //Transforme coordonnée 2D en 1D
-                int position = super.getCoordinate(coordonneeX, coordonneeY);
                 //Check case vide
-                if(game.board[position].getOwner() == null) {
-                    return position;
+                if(game.board[coordonneeX][coordonneeY].getOwner() == null) {
+                    return new int[]{coordonneeX, coordonneeY};
                 } else {
                     view.messageError("Erreur: Veuillez entrer une coordonnée qui n'est pas déjà utilisée");
                 }

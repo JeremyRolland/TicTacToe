@@ -2,25 +2,27 @@ import java.io.IOException;
 
 public class TicTacToe {
 
-    final int size = 9;
-    Cell[] board = new Cell[size];
+    final int size = 3;
+    Cell[][] board = new Cell[size][size];
     View view = new View();
     InteractionUtilisateur interactionUtilisateur = new InteractionUtilisateur(view);
     private Player currentPlayer;
 
-    // Constructeur qui initialise le tableau de cellules
+    // Constructeur qui initialise le tableau de Cell
     public TicTacToe() {
         this.initBoard();
     }
 
     public void initBoard() {
         for (int i = 0; i < size; i++) {
-            board[i] = new Cell();
+            for (int j = 0; j < size; j++) {
+                board[i][j] = new Cell();
+            }
         }
     }
 
-    public void play() throws IOException {
-        int position = -1;
+    public void play() {
+        int[] position = {-1, -1};
         int gameType = interactionUtilisateur.getGameType();
 
         Player[] players = this.initializePlayers(gameType);;
@@ -30,10 +32,9 @@ public class TicTacToe {
 
         while (true) {
             position = currentPlayer.getMoveFromPlayer(this);
-            board[position].setOwner(currentPlayer);
+            board[position[0]][position[1]].setOwner(currentPlayer);
             view.display(board);
-            if (isOver(board)) {
-                interactionUtilisateur.announceWinner(currentPlayer);
+            if (isOver(board, currentPlayer)) {
                 interactionUtilisateur.restartGame(this);
             } else {
                 currentPlayer = (currentPlayer == players[0]) ? players[1] : players[0];
@@ -56,38 +57,59 @@ public class TicTacToe {
     }
 
     //Fin de partie
-    public boolean isOver(Cell[] board) {
-        //Plateau non rempli
+    public boolean isOver(Cell[][] board, Player player) {
+        // Plateau non rempli
         boolean isFull = true;
-        //Conditions de victoire
-        int[][] winConditions = {
-                {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, // Lignes
-                {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, // Colonnes
-                {0, 4, 8}, {2, 4, 6}             // Diagonales
-        };
 
-        for (int[] condition : winConditions) {
-            int a = condition[0], b = condition[1], c = condition[2];
-            if (!board[a].getRepresentation().equals("|   ")) {
-                if (board[a].getRepresentation().equals(board[b].getRepresentation()) &&
-                        board[a].getRepresentation().equals(board[c].getRepresentation())) {
-                    return true;
-                }
+        // Vérifie les conditions de victoire (lignes et colonnes)
+        for (int i = 0; i < board.length; i++) {
+            if (board[i][0].getOwner() != null &&
+                    board[i][0].getOwner().equals(board[i][1].getOwner()) &&
+                    board[i][1].getOwner().equals(board[i][2].getOwner())) {
+                view.messageVictory("Le joueur " + player.getName() + " gagne la partie");
+                return true;
             }
-
-            // Vérifier si le plateau est plein
-            if (isFull && board[a].getRepresentation().equals("|   ") ||
-                    board[b].getRepresentation().equals("|   ") ||
-                    board[c].getRepresentation().equals("|   ")) {
-                isFull = false;
+            if (board[0][i].getOwner() != null &&
+                    board[0][i].getOwner().equals(board[1][i].getOwner()) &&
+                    board[1][i].getOwner().equals(board[2][i].getOwner())) {
+                view.messageVictory("Le joueur " + player.getName() + " gagne la partie");
+                return true;
             }
         }
-        //Plateau plein
-        if (isFull) {
-            view.messageVictory("Match null !!!");
+
+        // Vérifie les diagonales
+        if (board[0][0].getOwner() != null &&
+                board[0][0].getOwner().equals(board[1][1].getOwner()) &&
+                board[1][1].getOwner().equals(board[2][2].getOwner())) {
+            view.messageVictory("Le joueur " + player.getName() + " gagne la partie");
             return true;
         }
+        if (board[0][2].getOwner() != null &&
+                board[0][2].getOwner().equals(board[1][1].getOwner()) &&
+                board[1][1].getOwner().equals(board[2][0].getOwner())) {
+            view.messageVictory("Le joueur " + player.getName() + " gagne la partie");
+            return true;
+        }
+
+        // Vérifie si le plateau est plein
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if (board[i][j].getOwner() == null) {
+                    isFull = false;
+                    break;
+                }
+            }
+            if (!isFull) break;
+        }
+
+        // Plateau plein
+        if (isFull) {
+            view.messageVictory("Match nul !!!");
+            return true;
+        }
+
         return false;
     }
+
 
 }

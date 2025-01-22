@@ -14,13 +14,18 @@ public class Cell {
         } else if(owner.getSymbol().equals("O")) {
             this.representation = "| O ";
         } else {
-            this.representation = "| ? ";
+            this.representation = "|   ";
         }
     }
 
     public String getRepresentation() {
 
         return this.representation;
+    }
+
+    public void reset() {
+        this.representation = "|   ";
+        this.owner = null;
     }
 
 }
