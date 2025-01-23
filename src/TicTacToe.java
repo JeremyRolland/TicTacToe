@@ -6,7 +6,7 @@ public class TicTacToe {
     Cell[][] board = new Cell[size][size];
     View view = new View();
     InteractionUtilisateur interactionUtilisateur = new InteractionUtilisateur(view);
-    private Player currentPlayer;
+    private Tableau tableau;
 
     // Constructeur qui initialise le tableau de Cell
     public TicTacToe() {
@@ -22,9 +22,9 @@ public class TicTacToe {
     }
 
     public void play() {
+
         int[] position = {-1, -1};
         int gameType = interactionUtilisateur.getGameType();
-
         Player[] players = this.initializePlayers(gameType);;
         Player currentPlayer = players[0];
 
@@ -34,6 +34,9 @@ public class TicTacToe {
             position = currentPlayer.getMoveFromPlayer(this);
             board[position[0]][position[1]].setOwner(currentPlayer);
             view.display(board);
+            if(newCheckWin(board)) {
+                view.messageVictory("newCheckWin a trouvé une victoire");
+            }
             if (isOver(board, currentPlayer)) {
                 interactionUtilisateur.restartGame(this);
             } else {
@@ -108,6 +111,48 @@ public class TicTacToe {
             return true;
         }
 
+        return false;
+    }
+
+    public boolean newCheckWin(Cell[][] board) {
+
+        Cell[][] newBoard = tableau.cutTab(board);
+
+        for (int i = 0; i < newBoard.length; i++) {
+            if(this.isLineWin(newBoard[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isLineWin (Cell[] line) {
+        Cell a = line[0];
+        Cell b = line[1];
+        Cell c = line[2];
+        if (a.getOwner() != null) {
+            if (b.getOwner() != null) {
+                if (a.getOwner().equals(a.getOwner())) {
+                    if (c.getOwner() == null) {
+                        return true;
+                    }
+                }
+            } else if (c.getOwner() != null) {
+                if (a.getOwner().equals(c.getOwner())) {
+                    if (b.getOwner() == null) {
+                        return true;
+                    }
+                }
+            }
+        } else if (b.getOwner() != null) {
+            if (c.getOwner() != null) {
+                if (b.getOwner().equals(c.getOwner())) {
+                    if (a.getOwner() == null) {
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 
