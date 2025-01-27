@@ -6,7 +6,10 @@ public class TicTacToe extends BoardGame {
 
     // Constructeur qui initialise le plateau
     public TicTacToe() {
-        super(3);
+        this.size = 3;
+        this.board = new Cell[size][size];
+        this.initBoard();
+        this.winCondition = 3;
     }
 
     public void play() {
@@ -85,6 +88,21 @@ public class TicTacToe extends BoardGame {
         if (isFull) {
             view.messageVictory("Match nul !!!");
             return true;
+        }
+        return false;
+    }
+
+    @Override
+    protected boolean checkWin(Player player) {
+        for(int i = 0; i < this.size; i++) {
+            for(int j = 0; j < this.size; j++) {
+                if(super.checkDirection(player, i, j, 1, 0) ||
+                super.checkDirection(player, i, j, 0, 1) ||
+                super.checkDiagonalDescendante(player, i, j) ||
+                super.checkDiagonalAscendante(player, i, j)) {
+                    return true;
+                }
+            }
         }
         return false;
     }

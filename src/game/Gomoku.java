@@ -8,7 +8,10 @@ public class Gomoku extends BoardGame{
 
 
     public Gomoku() {
-        super(15);
+        this.size = 15;
+        this.board = new Cell[size][size];
+        this.initBoard();
+        this.winCondition = 5;
     }
 
     @Override
@@ -90,6 +93,11 @@ public class Gomoku extends BoardGame{
             view.messageVictory("Match nul !!!");
             return true;
         }
+        return false;
+    }
+
+    @Override
+    protected boolean checkWin(Player player) {
         return false;
     }
 }

@@ -7,16 +7,11 @@ import tools.View;
 public abstract class BoardGame {
 
     protected int size;
+    protected int winCondition;
     protected Cell[][] board;
     protected View view = new View();
     protected InteractionUtilisateur interactionUtilisateur = new InteractionUtilisateur(view);
     protected Player currentPlayer;
-
-    public BoardGame(int size) {
-        this.size = size;
-        this.board = new Cell[size][size];
-        this.initBoard();
-    }
 
     // Initialiser le plateau de jeu
     public void initBoard() {
@@ -27,10 +22,7 @@ public abstract class BoardGame {
         }
     }
 
-    public Cell[][] getBoard() {
-
-        return board;
-    }
+    public Cell[][] getBoard() {return board;}
 
     // Lancer une partie
     public abstract void play();
@@ -42,6 +34,37 @@ public abstract class BoardGame {
     protected abstract boolean isWin(Cell[][] board);
     // Vérifie si plateau complet
     protected abstract boolean isBoardFull();
+    // Essai de check qqn gagne
+    protected abstract boolean checkWin(Player player);
+
+    // Méthode pour vérifier une direction spécifique (horizontal ou vertical)
+    protected boolean checkDirection(Player player, int row, int col, int rowDir, int colDir) {
+        int count = 0;
+        for (int i = 0; i < this.winCondition; i++) {
+            int newRow = row + i * rowDir;
+            int newCol = col + i * colDir;
+            if (newRow >= 0 && newRow < this.size && newCol >= 0 && newCol < this.size &&
+                    this.board[newRow][newCol].getOwner() == player) {
+                count++;
+                if (count == this.winCondition) {
+                    return true;
+                }
+            } else {
+                break;
+            }
+        }
+        return false;
+    }
+
+    // Méthode pour vérifier la diagonale descendante (de haut à gauche à bas à droite)
+    protected boolean checkDiagonalDescendante(Player player, int row, int col) {
+        return checkDirection(player, row, col, 1, 1);
+    }
+
+    // Méthode pour vérifier la diagonale ascendante (de bas à gauche à haut à droite)
+    protected boolean checkDiagonalAscendante(Player player, int row, int col) {
+        return checkDirection(player, row, col, -1, 1);
+    }
 
     // Classe de gestion du tableau pour traitement
     public static class Tableau {
@@ -101,5 +124,6 @@ public abstract class BoardGame {
             return line;
         }
     }
+
 
 }
