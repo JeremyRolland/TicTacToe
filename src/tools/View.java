@@ -1,3 +1,7 @@
+package tools;
+
+import game.Cell;
+
 public class View {
 
     public static final String ANSI_BLACK = "\u001B[30m";

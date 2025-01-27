@@ -1,3 +1,8 @@
+package player;
+
+import tools.View;
+import game.TicTacToe;
+
 abstract public class Player {
 
     private String symbol = null;

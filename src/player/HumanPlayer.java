@@ -1,8 +1,12 @@
+package player;
+
+import game.TicTacToe;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class HumanPlayer extends Player{
+public class HumanPlayer extends Player {
 
     public HumanPlayer(String symbol) {
         super(symbol);
@@ -23,7 +27,7 @@ public class HumanPlayer extends Player{
                 //On s'assure que c'est un nombre
                 coordonneeY = Integer.parseInt(br.readLine());
                 //Check case vide
-                if(game.board[coordonneeX][coordonneeY].getOwner() == null) {
+                if(game.getBoard()[coordonneeX][coordonneeY].getOwner() == null) {
                     return new int[]{coordonneeX, coordonneeY};
                 } else {
                     view.messageError("Erreur: Veuillez entrer une coordonnée qui n'est pas déjà utilisée");

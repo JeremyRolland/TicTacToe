@@ -1,13 +1,17 @@
+package player;
+
+import game.Cell;
+import game.TicTacToe;
+
 public class ArtificialPlayer extends Player {
 
-    public enum Level {EASY,MEDIUM,HARD };
-    private Level IADifficulty;
-    private int tour = 0;
+    private enum Level {EASY,MEDIUM,HARD };
+    private final Level IADifficulty;
     private boolean earlyGame = true;
 
     public ArtificialPlayer(String symbol) {
         super(symbol);
-        this.IADifficulty = Level.MEDIUM;
+        this.IADifficulty = Level.EASY;
     }
 
     @Override
@@ -16,22 +20,22 @@ public class ArtificialPlayer extends Player {
         int position[] = {-1, -1};
             switch(this.IADifficulty) {
                 case EASY:
-                    return this.generateRandomPosition(game.board);
+                    return this.generateRandomPosition(game.getBoard());
                 case MEDIUM:
-                    position = this.analyzeWinConditions(game.board);
+                    position = this.analyzeWinConditions(game.getBoard());
                     System.out.println("position jouée: [" + position[0] + "," + position[1] + "].");
                     if (position[0] == -1) {
-                        position = this.generateRandomPosition(game.board);
+                        position = this.generateRandomPosition(game.getBoard());
                     }
                     return position;
                 case HARD:
-                    this.countCellPlayed(game.board);
+                    this.countCellPlayed(game.getBoard());
                     if(this.earlyGame) {
-                        position = this.playToWin(game.board);
+                        position = this.playToWin(game.getBoard());
                     } else {
-                        position = this.analyzeWinConditions(game.board);
+                        position = this.analyzeWinConditions(game.getBoard());
                         if (position[0] == -1) {
-                            position = this.generateRandomPosition(game.board);
+                            position = this.generateRandomPosition(game.getBoard());
                         }
                     }
                     return position;
@@ -57,43 +61,6 @@ public class ArtificialPlayer extends Player {
             }
         }
     }
-
-    private int[] checkWin(TicTacToe game) {
-        int[] result = {-1, -1};
-
-        // Teste pour toi
-        for (int i = 0; i < game.board.length; i++) {
-            for (int j = 0; j < game.board[i].length; j++) {
-                if (game.board[i][j].getOwner() == null) {
-                    game.board[i][j].setOwner(this);
-                    if (game.isOver(game.board, this)) {
-                        game.board[i][j].reset();
-                        return new int[]{i, j};
-                    }
-                    game.board[i][j].reset();
-                }
-            }
-        }
-
-        // Change de symbole pour tester pour l'adversaire
-        this.changeSymbol();
-        for (int i = 0; i < game.board.length; i++) {
-            for (int j = 0; j < game.board[i].length; j++) {
-                if (game.board[i][j].getOwner() == null) {
-                    game.board[i][j].setOwner(this);
-                    if (game.isOver(game.board, this)) {
-                        result[0] = i;
-                        result[1] = j;
-                    }
-                    game.board[i][j].reset();
-                }
-            }
-        }
-        this.changeSymbol(); // Rechange le symbole pour revenir à toi
-
-        return result;
-    }
-
 
     private int[] playToWin(Cell[][] board) {
         if(board[1][1].getOwner() == null) {
@@ -329,14 +296,6 @@ public class ArtificialPlayer extends Player {
                 return new int[]{coordonneeX, coordonneeY};
             }
         } while (true);
-    }
-
-    private void changeSymbol() {
-        if(super.getSymbol().equals("X")) {
-            super.setSymbol("O");
-        } else if(super.getSymbol().equals("0")) {
-            super.setSymbol("X");
-        }
     }
 
 }

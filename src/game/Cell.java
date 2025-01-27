@@ -1,3 +1,7 @@
+package game;
+
+import player.Player;
+
 public class Cell {
 
     private String representation = "|   ";
