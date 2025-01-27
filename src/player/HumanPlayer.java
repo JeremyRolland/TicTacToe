@@ -1,5 +1,6 @@
 package player;
 
+import game.BoardGame;
 import game.TicTacToe;
 
 import java.io.BufferedReader;
@@ -14,7 +15,7 @@ public class HumanPlayer extends Player {
 
     @Override
     //Récupère le choix du joueur pour case vide
-    public int[] getMoveFromPlayer(TicTacToe game) {
+    public int[] getMoveFromPlayer(BoardGame game) {
         int coordonneeX = -1, coordonneeY = -1;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         do {
@@ -35,7 +36,7 @@ public class HumanPlayer extends Player {
             } catch (NumberFormatException e) {
                 view.messageError("Erreur: Veuillez entrer un nombre entier.");
             } catch (ArrayIndexOutOfBoundsException e) {
-                view.messageError("Erreur: Veuillez rester dans la grille (min = 0 et max = 2)");
+                view.messageError("Erreur: Veuillez rester dans la grille (min = 0 et max = " + (game.getBoard().length - 1) + ")");
             } catch (IOException e) {
                 e.printStackTrace();
             }

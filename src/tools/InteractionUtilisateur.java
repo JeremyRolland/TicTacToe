@@ -1,6 +1,6 @@
 package tools;
 
-import game.TicTacToe;
+import game.BoardGame;
 import player.Player;
 
 import java.io.BufferedReader;
@@ -41,7 +41,7 @@ public class InteractionUtilisateur {
     }
 
     //Recommencer une partie
-    public void restartGame(TicTacToe game) {
+    public void restartGame(BoardGame game) {
 
         do{
             try{

@@ -1,5 +1,6 @@
 package player;
 
+import game.BoardGame;
 import game.Cell;
 import game.TicTacToe;
 
@@ -16,7 +17,7 @@ public class ArtificialPlayer extends Player {
 
     @Override
     //Récupère le choix du joueur pour case vide
-    public int[] getMoveFromPlayer(TicTacToe game) {
+    public int[] getMoveFromPlayer(BoardGame game) {
         int position[] = {-1, -1};
             switch(this.IADifficulty) {
                 case EASY:

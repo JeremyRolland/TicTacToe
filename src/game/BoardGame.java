@@ -33,7 +33,7 @@ public abstract class BoardGame {
     }
 
     // Lancer une partie
-    protected abstract void play();
+    public abstract void play();
     // Initialiser les joueurs
     protected abstract Player[] initializePlayers(int gameType);
     // Vérifie fin de partie

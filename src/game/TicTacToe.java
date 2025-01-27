@@ -11,7 +11,7 @@ public class TicTacToe extends BoardGame {
 
     public void play() {
 
-        int[] position = {-1, -1};
+        int[] position;
         int gameType = interactionUtilisateur.getGameType();
         Player[] players = this.initializePlayers(gameType);;
         this.currentPlayer = players[0];
