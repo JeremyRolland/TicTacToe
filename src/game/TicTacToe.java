@@ -25,7 +25,7 @@ public class TicTacToe extends BoardGame {
             position = this.currentPlayer.getMoveFromPlayer(this.board);
             this.board[position[0]][position[1]].setOwner(this.currentPlayer);
             view.display(this.board);
-            if (this.isOver(this.board)) {
+            if (super.isOver(this.board, this.currentPlayer, this.winCondition)) {
                 interactionUtilisateur.announceWinner(this.currentPlayer);
                 interactionUtilisateur.restartGame(this);
             } else {
@@ -46,54 +46,6 @@ public class TicTacToe extends BoardGame {
                 view.messageError("PAS COMPRIS");
                 return new Player[]{};
         }
-    }
-
-    public boolean isOver(Cell[][] board) {
-
-
-        if(isBoardFull() || super.hasWinner(board, 3)) {
-            return true;
-        }
-        return false;
-    }
-
-    // Vérifie victoire
-    public boolean isWin(Cell[][] board) {
-
-        for (int i = 0; i < board.length; i++) {
-            if(board[i][0].getOwner() != null &&
-                    board[i][0].getOwner().equals(board[i][1].getOwner()) &&
-                    board[i][0].getOwner().equals(board[i][2].getOwner())) {
-                interactionUtilisateur.announceWinner(this.currentPlayer);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // Plateau plein
-    protected  boolean isBoardFull() {
-        boolean isFull = true;
-
-        for (int i = 0; i < this.board.length; i++) {
-            for (int j = 0; j < this.board[i].length; j++) {
-                if (this.board[i][j].getOwner() == null) {
-                    isFull = false;
-                    break;
-                }
-            }
-            if (!isFull) break;
-        }
-        if (isFull) {
-            view.messageVictory("Match nul !!!");
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    protected boolean checkWin(Player player) {
-        return false;
     }
 
 }
