@@ -1,12 +1,11 @@
-package game;
+package model;
 
-import tools.*;
-
-import java.util.Scanner;
+import vue.InteractionUtilisateur;
+import vue.View;
 
 public class Game {
-    private View view = new View();
-    private InteractionUtilisateur interactionUtilisateur = new InteractionUtilisateur(view);
+    private final View view = new View();
+    private final InteractionUtilisateur interactionUtilisateur = new InteractionUtilisateur(view);
 
     // Créer l'instance du jeu choisi
     public BoardGame createBoardGame() {

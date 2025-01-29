@@ -1,6 +1,4 @@
-package player;
-
-import game.Cell;
+package model;
 
 public class ArtificialPlayer extends Player {
 
@@ -15,7 +13,7 @@ public class ArtificialPlayer extends Player {
 
     //Récupère le choix du joueur pour case vide
     public int[] getMoveFromPlayer(Cell[][] board) {
-        int position[] = {-1, -1};
+        int[] position = {-1, -1};
             switch(this.IADifficulty) {
                 case EASY:
                     return this.generateRandomPosition(board);

@@ -1,7 +1,7 @@
-package tools;
+package vue;
 
-import game.BoardGame;
-import player.Player;
+import model.BoardGame;
+import model.Player;
 
 import java.io.BufferedReader;
 import java.io.IOException;

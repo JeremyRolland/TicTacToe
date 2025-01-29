@@ -1,6 +1,6 @@
-package tools;
+package vue;
 
-import game.Cell;
+import model.Cell;
 
 public class View {
 

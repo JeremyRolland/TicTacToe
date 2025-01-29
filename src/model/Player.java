@@ -1,6 +1,6 @@
-package player;
+package model;
 
-import tools.View;
+import vue.View;
 
 abstract public class Player {
 

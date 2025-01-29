@@ -1,6 +1,4 @@
-package game;
-
-import player.Player;
+package model;
 
 public class Cell {
 

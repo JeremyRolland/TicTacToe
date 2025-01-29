@@ -1,7 +1,7 @@
-package game;
+package model;
 
-import player.*;
-import tools.*;
+import vue.InteractionUtilisateur;
+import vue.View;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +13,7 @@ public abstract class BoardGame {
     protected int winCondition;
     protected Cell[][] board;
     protected View view = new View();
-    private InteractionUtilisateur interactionUtilisateur = new InteractionUtilisateur(view);
+    private final InteractionUtilisateur interactionUtilisateur = new InteractionUtilisateur(view);
     protected Player currentPlayer;
 
     // Initialiser le plateau de jeu
@@ -110,19 +110,16 @@ public abstract class BoardGame {
 
         if(this.hasWinner(board, player,winCondition) ) {
             return true;
-        } else if(this.isBoardFull()) {
-            return true;
-        }
-        return false;
+        } else return this.isBoardFull();
     }
 
     // Vérifie si plateau complet
     private boolean isBoardFull() {
         boolean isFull = true;
 
-        for (int i = 0; i < this.board.length; i++) {
-            for (int j = 0; j < this.board[i].length; j++) {
-                if (this.board[i][j].getOwner() == null) {
+        for (Cell[] cells : this.board) {
+            for (Cell cell : cells) {
+                if (cell.getOwner() == null) {
                     isFull = false;
                     break;
                 }
