@@ -10,7 +10,7 @@ public class Gomoku extends BoardGame{
     public Gomoku() {
         this.size = 15;
         this.board = new Cell[size][size];
-        this.initBoard();
+        super.initBoard();
         this.winCondition = 5;
     }
 
@@ -24,10 +24,10 @@ public class Gomoku extends BoardGame{
         view.display(this.board);
 
         while (true) {
-            position = this.currentPlayer.getMoveFromPlayer(this);
+            position = this.currentPlayer.getMoveFromPlayer(this.board);
             this.board[position[0]][position[1]].setOwner(this.currentPlayer);
             view.display(this.board);
-            if (isOver(this.board)) {
+            if (checkWin(players[0]) || checkWin(players[1])) {
                 interactionUtilisateur.restartGame(this);
             } else {
                 this.currentPlayer = (this.currentPlayer == players[0]) ? players[1] : players[0];
@@ -53,10 +53,9 @@ public class Gomoku extends BoardGame{
     @Override
     protected boolean isOver(Cell[][] board) {
 
-        Tableau tableau = new Tableau();
-        Cell[][] newBoard = tableau.cutTab(board);
 
-        if(isBoardFull() || this.isWin(newBoard)) {
+
+        if(isBoardFull() || super.hasWinner(board, 5)) {
             return true;
         }
         return false;
@@ -100,4 +99,6 @@ public class Gomoku extends BoardGame{
     protected boolean checkWin(Player player) {
         return false;
     }
+
+
 }

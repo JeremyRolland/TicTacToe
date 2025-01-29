@@ -8,7 +8,7 @@ public class TicTacToe extends BoardGame {
     public TicTacToe() {
         this.size = 3;
         this.board = new Cell[size][size];
-        this.initBoard();
+        super.initBoard();
         this.winCondition = 3;
     }
 
@@ -22,10 +22,11 @@ public class TicTacToe extends BoardGame {
         view.display(this.board);
 
         while (true) {
-            position = this.currentPlayer.getMoveFromPlayer(this);
+            position = this.currentPlayer.getMoveFromPlayer(this.board);
             this.board[position[0]][position[1]].setOwner(this.currentPlayer);
             view.display(this.board);
-            if (isOver(this.board)) {
+            if (this.isOver(this.board)) {
+                interactionUtilisateur.announceWinner(this.currentPlayer);
                 interactionUtilisateur.restartGame(this);
             } else {
                 this.currentPlayer = (this.currentPlayer == players[0]) ? players[1] : players[0];
@@ -49,10 +50,8 @@ public class TicTacToe extends BoardGame {
 
     public boolean isOver(Cell[][] board) {
 
-        Tableau tableau = new Tableau();
-        Cell[][] newBoard = tableau.cutTab(board);
 
-        if(isBoardFull() || this.isWin(newBoard)) {
+        if(isBoardFull() || super.hasWinner(board, 3)) {
             return true;
         }
         return false;
@@ -94,16 +93,6 @@ public class TicTacToe extends BoardGame {
 
     @Override
     protected boolean checkWin(Player player) {
-        for(int i = 0; i < this.size; i++) {
-            for(int j = 0; j < this.size; j++) {
-                if(super.checkDirection(player, i, j, 1, 0) ||
-                super.checkDirection(player, i, j, 0, 1) ||
-                super.checkDiagonalDescendante(player, i, j) ||
-                super.checkDiagonalAscendante(player, i, j)) {
-                    return true;
-                }
-            }
-        }
         return false;
     }
 

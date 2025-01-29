@@ -1,6 +1,7 @@
 package player;
 
 import game.BoardGame;
+import game.Cell;
 import tools.View;
 
 abstract public class Player {
@@ -35,6 +36,6 @@ abstract public class Player {
         }
     }
 
-    abstract public int[] getMoveFromPlayer(BoardGame game);
+    abstract public int[] getMoveFromPlayer(Cell[][] board);
 
 }

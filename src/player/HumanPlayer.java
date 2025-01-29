@@ -1,6 +1,7 @@
 package player;
 
 import game.BoardGame;
+import game.Cell;
 import game.TicTacToe;
 
 import java.io.BufferedReader;
@@ -15,7 +16,7 @@ public class HumanPlayer extends Player {
 
     @Override
     //Récupère le choix du joueur pour case vide
-    public int[] getMoveFromPlayer(BoardGame game) {
+    public int[] getMoveFromPlayer(Cell[][] board) {
         int coordonneeX = -1, coordonneeY = -1;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         do {
@@ -28,7 +29,7 @@ public class HumanPlayer extends Player {
                 //On s'assure que c'est un nombre
                 coordonneeY = Integer.parseInt(br.readLine());
                 //Check case vide
-                if(game.getBoard()[coordonneeX][coordonneeY].getOwner() == null) {
+                if(board[coordonneeX][coordonneeY].getOwner() == null) {
                     return new int[]{coordonneeX, coordonneeY};
                 } else {
                     view.messageError("Erreur: Veuillez entrer une coordonnée qui n'est pas déjà utilisée");
@@ -36,7 +37,7 @@ public class HumanPlayer extends Player {
             } catch (NumberFormatException e) {
                 view.messageError("Erreur: Veuillez entrer un nombre entier.");
             } catch (ArrayIndexOutOfBoundsException e) {
-                view.messageError("Erreur: Veuillez rester dans la grille (min = 0 et max = " + (game.getBoard().length - 1) + ")");
+                view.messageError("Erreur: Veuillez rester dans la grille (min = 0 et max = " + (board.length - 1) + ")");
             } catch (IOException e) {
                 e.printStackTrace();
             }

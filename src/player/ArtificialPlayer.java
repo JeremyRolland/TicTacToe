@@ -17,27 +17,23 @@ public class ArtificialPlayer extends Player {
 
     @Override
     //Récupère le choix du joueur pour case vide
-    public int[] getMoveFromPlayer(BoardGame game) {
+    public int[] getMoveFromPlayer(Cell[][] board) {
         int position[] = {-1, -1};
             switch(this.IADifficulty) {
                 case EASY:
-                    return this.generateRandomPosition(game.getBoard());
+                    return this.generateRandomPosition(board);
                 case MEDIUM:
-                    position = this.analyzeWinConditions(game.getBoard());
+                    position = this.analyzeWinConditions(board);
                     System.out.println("position jouée: [" + position[0] + "," + position[1] + "].");
                     if (position[0] == -1) {
-                        position = this.generateRandomPosition(game.getBoard());
+                        position = this.generateRandomPosition(board);
                     }
                     return position;
                 case HARD:
-                    this.countCellPlayed(game.getBoard());
-                    if(this.earlyGame) {
-                        position = this.playToWin(game.getBoard());
-                    } else {
-                        position = this.analyzeWinConditions(game.getBoard());
-                        if (position[0] == -1) {
-                            position = this.generateRandomPosition(game.getBoard());
-                        }
+                    this.countCellPlayed(board);
+                    position = this.analyzeWinConditions(board);
+                    if (position[0] == -1) {
+                        position = this.generateRandomPosition(board);
                     }
                     return position;
                 default:
@@ -60,39 +56,6 @@ public class ArtificialPlayer extends Player {
                     }
                 }
             }
-        }
-    }
-
-    private int[] playToWin(Cell[][] board) {
-        if(board[1][1].getOwner() == null) {
-            return new int[]{1, 1};
-        }
-        if(board[0][1].getOwner() != null) {
-            if(board[2][0].getOwner() != null) {
-                return new int[]{1, 2};
-            } else {
-                return new int[]{0, 2};
-            }
-        } else if(board[1][2].getOwner() != null) {
-            if(board[2][0].getOwner() != null) {
-                return new int[]{2, 1};
-            } else {
-                return new int[]{2, 2};
-            }
-        } else if(board[2][1].getOwner() != null) {
-            if(board[2][0].getOwner() != null) {
-                return new int[]{1, 0};
-            } else {
-                return new int[]{2, 0};
-            }
-        } else if(board[1][0].getOwner() != null) {
-            if(board[2][0].getOwner() != null) {
-                return new int[]{0, 1};
-            } else {
-                return new int[]{0, 0};
-            }
-        } else {
-            return generateRandomPosition(board);
         }
     }
 
