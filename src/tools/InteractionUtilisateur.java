@@ -16,6 +16,30 @@ public class InteractionUtilisateur {
         this.view = view;
     }
 
+    // Demander le jeu à jouer
+    public int getGame() {
+        do {
+            try {
+                view.messageNormal(
+                        "Choix du tjeu:"
+                                + "\n" + "TicTacToe: taper \"1\""
+                                + "\n" + "Gomoku: taper \"2\""
+                                + "\n" + "Puissance 4: taper \"3\"");
+                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                int choixUtilisateur = Integer.parseInt(br.readLine());
+                if(choixUtilisateur < 1 && choixUtilisateur > 3) {
+                    view.messageError("Erreur: Veuillez entrer un nombre compris entre 1 et 3");
+                } else {
+                    return choixUtilisateur;
+                }
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            } catch (NumberFormatException e) {
+                view.messageError("Erreur: Veuillez entrer un nombre entier.");
+            }
+        } while(true);
+    }
+
     //Demander le type de partie
     public int getGameType() {
         do {

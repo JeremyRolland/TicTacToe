@@ -1,5 +1,7 @@
 package game;
 
+import player.ArtificialPlayer;
+import player.HumanPlayer;
 import player.Player;
 import tools.InteractionUtilisateur;
 import tools.View;
@@ -15,17 +17,49 @@ public abstract class BoardGame {
 
     // Initialiser le plateau de jeu
     public void initBoard() {
-        for (int i = 0; i < this.size; i++) {
-            for (int j = 0; j < this.size; j++) {
+        for (int i = 0; i < this.board.length; i++) {
+            for (int j = 0; j < this.board[0].length; j++) {
                 this.board[i][j] = new Cell();
             }
         }
     }
 
     // Lancer une partie
-    public abstract void play();
+    public void play() {
+
+        int[] position;
+        int gameType = interactionUtilisateur.getGameType();
+        Player[] players = this.initializePlayers(gameType);;
+        this.currentPlayer = players[0];
+
+        view.display(this.board);
+
+        while (true) {
+            position = this.currentPlayer.getMoveFromPlayer(this.board);
+            this.board[position[0]][position[1]].setOwner(this.currentPlayer);
+            view.display(this.board);
+            if (this.isOver(this.board, this.currentPlayer, this.winCondition)) {
+                interactionUtilisateur.announceWinner(this.currentPlayer);
+                interactionUtilisateur.restartGame(this);
+            } else {
+                this.currentPlayer = (this.currentPlayer == players[0]) ? players[1] : players[0];
+            }
+        }
+    }
     // Initialiser les joueurs
-    protected abstract Player[] initializePlayers(int gameType);
+    protected Player[] initializePlayers(int gameType) {
+        switch (gameType) {
+            case 1:
+                return new Player[]{ new HumanPlayer("X"), new HumanPlayer("O") };
+            case 2:
+                return new Player[]{ new HumanPlayer("X"), new ArtificialPlayer("O") };
+            case 3:
+                return new Player[]{ new ArtificialPlayer("X"), new ArtificialPlayer("O") };
+            default:
+                view.messageError("PAS COMPRIS");
+                return new Player[]{};
+        }
+    }
 
 
     // Vérifie fin de partie
