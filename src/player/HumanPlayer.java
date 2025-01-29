@@ -14,35 +14,6 @@ public class HumanPlayer extends Player {
         super(symbol);
     }
 
-    @Override
-    //Récupère le choix du joueur pour case vide
-    public int[] getMoveFromPlayer(Cell[][] board) {
-        int coordonneeX = -1, coordonneeY = -1;
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        do {
-            try {
-                view.messageNormal("Entrer une coordonnée [x][y]");
-                view.askCoordinate('x');
-                //On s'assure que c'est un nombre
-                coordonneeX = Integer.parseInt(br.readLine());
-                view.askCoordinate('y');
-                //On s'assure que c'est un nombre
-                coordonneeY = Integer.parseInt(br.readLine());
-                //Check case vide
-                if(board[coordonneeX][coordonneeY].getOwner() == null) {
-                    return new int[]{coordonneeX, coordonneeY};
-                } else {
-                    view.messageError("Erreur: Veuillez entrer une coordonnée qui n'est pas déjà utilisée");
-                }
-            } catch (NumberFormatException e) {
-                view.messageError("Erreur: Veuillez entrer un nombre entier.");
-            } catch (ArrayIndexOutOfBoundsException e) {
-                view.messageError("Erreur: Veuillez rester dans la grille (min = 0 et max = " + (board.length - 1) + ")");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } while (true);
-    }
 
 
 

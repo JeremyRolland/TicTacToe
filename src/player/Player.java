@@ -36,6 +36,4 @@ abstract public class Player {
         }
     }
 
-    abstract public int[] getMoveFromPlayer(Cell[][] board);
-
 }

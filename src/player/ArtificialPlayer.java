@@ -12,7 +12,6 @@ public class ArtificialPlayer extends Player {
         this.IADifficulty = Level.EASY;
     }
 
-    @Override
     //Récupère le choix du joueur pour case vide
     public int[] getMoveFromPlayer(Cell[][] board) {
         int position[] = {-1, -1};
@@ -29,7 +28,7 @@ public class ArtificialPlayer extends Player {
         return position;
     }
 
-    private int[] generateRandomPosition(Cell[][] board) {
+    public int[] generateRandomPosition(Cell[][] board) {
         int position = -1, coordonneeX = -1, coordonneeY = -1;
         do {
             coordonneeX = (int) (Math.random() * board.length);

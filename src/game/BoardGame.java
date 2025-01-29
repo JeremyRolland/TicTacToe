@@ -6,6 +6,10 @@ import player.Player;
 import tools.InteractionUtilisateur;
 import tools.View;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public abstract class BoardGame {
 
     protected int size;
@@ -14,6 +18,7 @@ public abstract class BoardGame {
     protected View view = new View();
     protected InteractionUtilisateur interactionUtilisateur = new InteractionUtilisateur(view);
     protected Player currentPlayer;
+    private Game game = new Game();
 
     // Initialiser le plateau de jeu
     public void initBoard() {
@@ -21,6 +26,14 @@ public abstract class BoardGame {
             for (int j = 0; j < this.board[0].length; j++) {
                 this.board[i][j] = new Cell();
             }
+        }
+    }
+
+    // Choisir le jeu
+    public void selectGame() {
+        switch (interactionUtilisateur.getGame()) {
+            case 1:
+
         }
     }
 
@@ -35,7 +48,7 @@ public abstract class BoardGame {
         view.display(this.board);
 
         while (true) {
-            position = this.currentPlayer.getMoveFromPlayer(this.board);
+            position = this.getMoveFromPlayer();
             this.board[position[0]][position[1]].setOwner(this.currentPlayer);
             view.display(this.board);
             if (this.isOver(this.board, this.currentPlayer, this.winCondition)) {
@@ -46,6 +59,49 @@ public abstract class BoardGame {
             }
         }
     }
+
+    public int[] getMoveFromPlayer() {
+        int coordonneeX = -1, coordonneeY = -1;
+        // Joueur humain
+        if (this.currentPlayer.getClass().getSimpleName().equals("HumanPlayer")) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            do {
+                try {
+                    view.messageNormal("Entrer une coordonnée [x][y]");
+                    view.askCoordinate('x');
+                    //On s'assure que c'est un nombre
+                    coordonneeX = Integer.parseInt(br.readLine());
+                    view.askCoordinate('y');
+                    //On s'assure que c'est un nombre
+                    coordonneeY = Integer.parseInt(br.readLine());
+                    //Check case vide
+                    if(board[coordonneeX][coordonneeY].getOwner() == null) {
+                        return new int[]{coordonneeX, coordonneeY};
+                    } else {
+                        view.messageError("Erreur: Veuillez entrer une coordonnée qui n'est pas déjà utilisée");
+                    }
+                } catch (NumberFormatException e) {
+                    view.messageError("Erreur: Veuillez entrer un nombre entier.");
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    view.messageError("Erreur: Veuillez rester dans la grille (min = 0 et max = " + (board.length - 1) + ")");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } while (true);
+        // Joueur artificiel
+        } else {
+            do {
+                coordonneeX = (int) (Math.random() * board.length);
+                coordonneeY = (int) (Math.random() * board.length);
+                //Transforme coordonnée 2D en 1D
+                if(board[coordonneeX][coordonneeY].getOwner() == null) {
+                    System.out.println("position jouée: [" + coordonneeX + "," + coordonneeY + "].");
+                    return new int[]{coordonneeX, coordonneeY};
+                }
+            } while (true);
+        }
+    }
+
     // Initialiser les joueurs
     protected Player[] initializePlayers(int gameType) {
         switch (gameType) {
@@ -60,7 +116,6 @@ public abstract class BoardGame {
                 return new Player[]{};
         }
     }
-
 
     // Vérifie fin de partie
     protected boolean isOver(Cell[][] board, Player player, int winCondition) {
@@ -92,7 +147,6 @@ public abstract class BoardGame {
         }
         return false;
     }
-
 
     // Vérifie si un joueur a gagné
     public boolean hasWinner(Cell[][] board, Player player, int winCondition) {

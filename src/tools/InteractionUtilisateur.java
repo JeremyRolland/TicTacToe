@@ -16,12 +16,36 @@ public class InteractionUtilisateur {
         this.view = view;
     }
 
+    public int[] askPositionToPlay () {
+        int coordonneeX = -1, coordonneeY = -1;
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        do {
+            try {
+                view.messageNormal("Entrer une coordonnée [x][y]");
+                view.askCoordinate('x');
+                //On s'assure que c'est un nombre
+                coordonneeX = Integer.parseInt(br.readLine());
+                view.askCoordinate('y');
+                //On s'assure que c'est un nombre
+                coordonneeY = Integer.parseInt(br.readLine());
+                return new int[]{coordonneeX, coordonneeY};
+            } catch (NumberFormatException e) {
+                view.messageError("Erreur: Veuillez entrer un nombre entier.");
+            } catch (ArrayIndexOutOfBoundsException e) {
+                view.messageError("Erreur: Veuillez rester dans la grille");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } while (true);
+
+    }
+
     // Demander le jeu à jouer
     public int getGame() {
         do {
             try {
                 view.messageNormal(
-                        "Choix du tjeu:"
+                        "Choix du jeu:"
                                 + "\n" + "TicTacToe: taper \"1\""
                                 + "\n" + "Gomoku: taper \"2\""
                                 + "\n" + "Puissance 4: taper \"3\"");
