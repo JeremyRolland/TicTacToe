@@ -1,7 +1,6 @@
 package game;
 
-import tools.InteractionUtilisateur;
-import tools.View;
+import tools.*;
 
 import java.util.Scanner;
 

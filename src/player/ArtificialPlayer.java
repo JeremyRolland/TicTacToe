@@ -7,6 +7,7 @@ public class ArtificialPlayer extends Player {
     private enum Level {EASY,MEDIUM,HARD };
     private final Level IADifficulty;
 
+    // Constructeur
     public ArtificialPlayer(String symbol) {
         super(symbol);
         this.IADifficulty = Level.EASY;

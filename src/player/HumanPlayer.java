@@ -1,15 +1,8 @@
 package player;
 
-import game.BoardGame;
-import game.Cell;
-import game.TicTacToe;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 public class HumanPlayer extends Player {
 
+    // Constructeur
     public HumanPlayer(String symbol) {
         super(symbol);
     }

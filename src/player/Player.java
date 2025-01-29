@@ -1,7 +1,5 @@
 package player;
 
-import game.BoardGame;
-import game.Cell;
 import tools.View;
 
 abstract public class Player {
@@ -16,18 +14,22 @@ abstract public class Player {
         this.name = (symbol == "X") ? "joueur1" : "joueur2";
     }
 
+    // Retourne nom
     public String getName() {
         return name;
     }
 
+    // Instancie nom
     public void setName(String name) {
         this.name = name;
     }
 
+    // Retourne symbole
     public String getSymbol() {
         return this.symbol;
     }
 
+    // Instancie symbole
     protected void setSymbol(String symbol) {
         if (symbol.toUpperCase().equals("X") || symbol.toUpperCase().equals("O")) {
             this.symbol = symbol.toUpperCase();

@@ -4,9 +4,9 @@ import game.Cell;
 
 public class View {
 
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_BLUE = "\u001B[34m";
+    private static final String ANSI_BLACK = "\u001B[30m";
+    private static final String ANSI_GREEN = "\u001B[32m";
+    private static final String ANSI_BLUE = "\u001B[34m";
 
     //Affiche le plateau de jeu
     public void display(Cell[][] board) {
@@ -19,18 +19,22 @@ public class View {
         System.out.println();
     }
 
+    // Demande une coordonnée
     public void askCoordinate(char coordinate) {
         System.out.print(ANSI_BLACK + "Entrer [" + coordinate + "]: ");
     }
 
+    // Message en police noire
     public void messageNormal(String message) {
         System.out.println(ANSI_BLACK + message);
     }
 
+    // Message en police verte
     public void messageVictory(String message) {
         System.out.println(ANSI_GREEN + message);
     }
 
+    // Message en police rouge
     public void messageError(String message) {
         System.err.println(message);
     }

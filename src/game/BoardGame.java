@@ -1,10 +1,7 @@
 package game;
 
-import player.ArtificialPlayer;
-import player.HumanPlayer;
-import player.Player;
-import tools.InteractionUtilisateur;
-import tools.View;
+import player.*;
+import tools.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,9 +13,8 @@ public abstract class BoardGame {
     protected int winCondition;
     protected Cell[][] board;
     protected View view = new View();
-    protected InteractionUtilisateur interactionUtilisateur = new InteractionUtilisateur(view);
+    private InteractionUtilisateur interactionUtilisateur = new InteractionUtilisateur(view);
     protected Player currentPlayer;
-    private Game game = new Game();
 
     // Initialiser le plateau de jeu
     public void initBoard() {
@@ -26,14 +22,6 @@ public abstract class BoardGame {
             for (int j = 0; j < this.board[0].length; j++) {
                 this.board[i][j] = new Cell();
             }
-        }
-    }
-
-    // Choisir le jeu
-    public void selectGame() {
-        switch (interactionUtilisateur.getGame()) {
-            case 1:
-
         }
     }
 
@@ -60,7 +48,7 @@ public abstract class BoardGame {
         }
     }
 
-    public int[] getMoveFromPlayer() {
+    protected int[] getMoveFromPlayer() {
         int coordonneeX = -1, coordonneeY = -1;
         // Joueur humain
         if (this.currentPlayer.getClass().getSimpleName().equals("HumanPlayer")) {
@@ -103,7 +91,7 @@ public abstract class BoardGame {
     }
 
     // Initialiser les joueurs
-    protected Player[] initializePlayers(int gameType) {
+    private Player[] initializePlayers(int gameType) {
         switch (gameType) {
             case 1:
                 return new Player[]{ new HumanPlayer("X"), new HumanPlayer("O") };
@@ -118,7 +106,7 @@ public abstract class BoardGame {
     }
 
     // Vérifie fin de partie
-    protected boolean isOver(Cell[][] board, Player player, int winCondition) {
+    private boolean isOver(Cell[][] board, Player player, int winCondition) {
 
         if(this.hasWinner(board, player,winCondition) ) {
             return true;
@@ -129,7 +117,7 @@ public abstract class BoardGame {
     }
 
     // Vérifie si plateau complet
-    protected boolean isBoardFull() {
+    private boolean isBoardFull() {
         boolean isFull = true;
 
         for (int i = 0; i < this.board.length; i++) {
@@ -149,7 +137,7 @@ public abstract class BoardGame {
     }
 
     // Vérifie si un joueur a gagné
-    public boolean hasWinner(Cell[][] board, Player player, int winCondition) {
+    private boolean hasWinner(Cell[][] board, Player player, int winCondition) {
         int rows = board.length;
         int cols = board[0].length;
 

@@ -7,10 +7,12 @@ public class Cell {
     private String representation = "|   ";
     private Player owner = null;
 
+    // Retourne le Player propriétaire
     public Player getOwner() {
         return owner;
     }
 
+    // Instancie le Player propriétaire
     public void setOwner(Player owner) {
         this.owner = owner;
         if(owner.getSymbol().equals("X")) {
@@ -22,14 +24,10 @@ public class Cell {
         }
     }
 
+    // Retourne la représentation
     public String getRepresentation() {
 
         return this.representation;
-    }
-
-    public void reset() {
-        this.representation = "|   ";
-        this.owner = null;
     }
 
 }

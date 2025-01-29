@@ -1,7 +1,5 @@
 package game;
 
-import player.*;
-
 public class TicTacToe extends BoardGame {
 
     // Constructeur qui initialise le plateau

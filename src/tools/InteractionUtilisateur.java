@@ -12,32 +12,9 @@ public class InteractionUtilisateur {
 
     private final View view;
 
-    public InteractionUtilisateur(View view){
+    // Constructeur
+    public InteractionUtilisateur(View view) {
         this.view = view;
-    }
-
-    public int[] askPositionToPlay () {
-        int coordonneeX = -1, coordonneeY = -1;
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        do {
-            try {
-                view.messageNormal("Entrer une coordonnée [x][y]");
-                view.askCoordinate('x');
-                //On s'assure que c'est un nombre
-                coordonneeX = Integer.parseInt(br.readLine());
-                view.askCoordinate('y');
-                //On s'assure que c'est un nombre
-                coordonneeY = Integer.parseInt(br.readLine());
-                return new int[]{coordonneeX, coordonneeY};
-            } catch (NumberFormatException e) {
-                view.messageError("Erreur: Veuillez entrer un nombre entier.");
-            } catch (ArrayIndexOutOfBoundsException e) {
-                view.messageError("Erreur: Veuillez rester dans la grille");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } while (true);
-
     }
 
     // Demander le jeu à jouer
