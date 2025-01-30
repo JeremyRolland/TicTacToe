@@ -7,7 +7,8 @@ import java.io.InputStreamReader;
 public class Puissance4 extends BoardGame {
 
     // Constructeur qui initialise le plateau
-    public Puissance4() {
+    public Puissance4(int playersType) {
+        super(playersType);
         this.size = 6;
         this.board = new Cell[size][size + 1];
         super.initBoard();
@@ -15,10 +16,10 @@ public class Puissance4 extends BoardGame {
     }
 
     @Override
-    public int[] getMoveFromPlayer() {
+    public int[] getMoveFromPlayer(Player player) {
         int coordonneeY = -1;
         // Joueur humain
-        if (this.currentPlayer.getClass().getSimpleName().equals("HumanPlayer")) {
+        if (player.getClass().getSimpleName().equals("HumanPlayer")) {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             do {
                 try {

@@ -13,8 +13,14 @@ public abstract class BoardGame {
     protected int winCondition;
     protected Cell[][] board;
     protected View view = new View();
-    private final InteractionUtilisateur interactionUtilisateur = new InteractionUtilisateur(view);
+    private final InteractionUtilisateur interactionUtilisateur = new InteractionUtilisateur();
     protected Player currentPlayer;
+    private final Player[] players;
+
+
+    public BoardGame(int playersType) {
+        players = this.initializePlayers(playersType);
+    }
 
     // Initialiser le plateau de jeu
     public void initBoard() {
@@ -25,33 +31,28 @@ public abstract class BoardGame {
         }
     }
 
-    // Lancer une partie
-    public void play() {
-
-        int[] position;
-        int gameType = interactionUtilisateur.getGameType();
-        Player[] players = this.initializePlayers(gameType);;
-        this.currentPlayer = players[0];
-
-        view.display(this.board);
-
-        while (true) {
-            position = this.getMoveFromPlayer();
-            this.board[position[0]][position[1]].setOwner(this.currentPlayer);
-            view.display(this.board);
-            if (this.isOver(this.board, this.currentPlayer, this.winCondition)) {
-                interactionUtilisateur.announceWinner(this.currentPlayer);
-                interactionUtilisateur.restartGame(this);
-            } else {
-                this.currentPlayer = (this.currentPlayer == players[0]) ? players[1] : players[0];
-            }
-        }
+    public Player[] getPlayers() {
+        return players;
     }
 
-    protected int[] getMoveFromPlayer() {
+    public Cell[][] getBoard() {
+        return board;
+    }
+    // Retourne un tableau de representation des Cells
+    public String[][] boardToString() {
+        String[][] stringCells = new String[this.board.length][this.board[0].length];
+        for (int i = 0; i < this.board.length; i++) {
+            for (int j = 0; j < this.board[0].length; j++) {
+                stringCells[i][j] = this.board[i][j].getRepresentation();
+            }
+        }
+        return stringCells;
+    }
+
+    public int[] getMoveFromPlayer(Player player) {
         int coordonneeX = -1, coordonneeY = -1;
         // Joueur humain
-        if (this.currentPlayer.getClass().getSimpleName().equals("HumanPlayer")) {
+        if (player.getClass().getSimpleName().equals("HumanPlayer")) {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             do {
                 try {
@@ -106,9 +107,9 @@ public abstract class BoardGame {
     }
 
     // Vérifie fin de partie
-    private boolean isOver(Cell[][] board, Player player, int winCondition) {
+    public boolean isOver(Cell[][] board, Player player) {
 
-        if(this.hasWinner(board, player,winCondition) ) {
+        if(this.hasWinner(board, player,this.winCondition) ) {
             return true;
         } else return this.isBoardFull();
     }

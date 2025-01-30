@@ -7,7 +7,4 @@ public class HumanPlayer extends Player {
         super(symbol);
     }
 
-
-
-
 }

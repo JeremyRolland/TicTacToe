@@ -1,11 +1,10 @@
+import controller.Controller;
 import model.BoardGame;
-import model.Game;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
-        Game game = new Game();
-        BoardGame board = game.createBoardGame();
-        board.play();
+        Controller app = new Controller();
+        app.playGame(app.initGame());
     }
 }

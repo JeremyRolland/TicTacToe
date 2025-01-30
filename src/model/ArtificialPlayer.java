@@ -1,5 +1,7 @@
 package model;
 
+import exceptions.InvalidArtificialDifficulty;
+
 public class ArtificialPlayer extends Player {
 
     private enum Level {EASY,MEDIUM,HARD };
@@ -12,7 +14,7 @@ public class ArtificialPlayer extends Player {
     }
 
     //Récupère le choix du joueur pour case vide
-    public int[] getMoveFromPlayer(Cell[][] board) {
+    public int[] getMoveFromPlayer(Cell[][] board) throws InvalidArtificialDifficulty {
         int[] position = {-1, -1};
             switch(this.IADifficulty) {
                 case EASY:
@@ -22,9 +24,8 @@ public class ArtificialPlayer extends Player {
                 case HARD:
                     return position;
                 default:
-                    view.messageError("Erreur: IA plantée !!! :o");
+                    throw new InvalidArtificialDifficulty();
             }
-        return position;
     }
 
     public int[] generateRandomPosition(Cell[][] board) {
