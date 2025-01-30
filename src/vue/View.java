@@ -1,8 +1,5 @@
 package vue;
 
-import model.Cell;
-import model.Player;
-
 public class View {
 
     private final String ANSI_BLACK = "\u001B[30m";
@@ -33,18 +30,14 @@ public class View {
                 + "\n" + "Humain Vs IA: taper \"2\""
                 + "\n" + "IA Vs IA: taper \"3\"";
     }
-    // Rejouer
-    public String getMessageRestart() {
-        return "Voulez-vous recommencer une partie ?";
-    }
     // Fin
-    public String getMessageQuitGame() {
-        return "Fin de la partie";
+    public void messageQuitGame() {
+        System.out.println("Fin de la partie");
     }
 
-    // Demande un choix
-    public String askTwoChoice(String message, String choix1, String choix2) {
-        return message + "[" + choix1 + "][" + choix2 + "]";
+    // Demande si rejoue
+    public String messageRestart() {
+        return "Voulez-vous recommencer une partie ? [oui][non]";
     }
     // Demande une coordonnée
     public void askCoordinate(char coordinate) {

@@ -1,7 +1,6 @@
 package model;
 
-import vue.InteractionUtilisateur;
-import vue.View;
+import vue.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +12,6 @@ public abstract class BoardGame {
     protected int winCondition;
     protected Cell[][] board;
     protected View view = new View();
-    private final InteractionUtilisateur interactionUtilisateur = new InteractionUtilisateur();
     protected Player currentPlayer;
     private final Player[] players;
 
@@ -49,10 +47,12 @@ public abstract class BoardGame {
         return stringCells;
     }
 
+
+
     public int[] getMoveFromPlayer(Player player) {
         int coordonneeX = -1, coordonneeY = -1;
         // Joueur humain
-        if (player.getClass().getSimpleName().equals("HumanPlayer")) {
+        if (player instanceof HumanPlayer) {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             do {
                 try {

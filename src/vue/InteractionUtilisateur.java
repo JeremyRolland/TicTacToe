@@ -1,11 +1,6 @@
 package vue;
 
-import exceptions.InvalidRangeException;
-import model.BoardGame;
-import model.Player;
-
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 
 
@@ -18,12 +13,13 @@ public class InteractionUtilisateur {
     public InteractionUtilisateur() {
     }
 
-    // Demande un entier à l'utilisateur
+    // Demande un int à l'utilisateur
     public int askInt(String message) throws Exception {
         view.messageNormal(message);
         return Integer.parseInt(br.readLine());
     }
 
+    // Demande un String à l'utilisateur
     public String askString(String message) throws Exception {
         view.messageNormal(message);
         return br.readLine();

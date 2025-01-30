@@ -3,8 +3,7 @@ package controller;
 import exceptions.InvalidRangeException;
 import exceptions.InvalidStringException;
 import model.*;
-import vue.InteractionUtilisateur;
-import vue.View;
+import vue.*;
 
 import java.io.InvalidClassException;
 
@@ -12,8 +11,6 @@ public class Controller {
 
     private final View view;
     private final InteractionUtilisateur user;
-    private int maxGames = 3;
-    private int maxPLayers = 3;
 
     public Controller() {
         this.view = new View();
@@ -23,10 +20,13 @@ public class Controller {
     // Initialise le type de partie
     public BoardGame initGame() {
 
+        int maxPLayers = 3;
+        int maxGames = 3;
         try {
             int userChoiceGame = user.askInt(view.getMessageChoiceGame());
             this.validateIntChoice(userChoiceGame, maxGames);
             int userChoicePlayer = user.askInt(view.getMesaggeChoicePlayer());
+
             this.validateIntChoice(userChoicePlayer, maxPLayers);
             switch (userChoiceGame) {
                 case 1:
@@ -72,32 +72,33 @@ public class Controller {
     }
 
     public void restartGame() {
-        do{
-            try{
-                String choixUser = user.askString(view.askTwoChoice(view.getMessageRestart(), "oui", "non"));
-                if(choixUser.equals("oui")) {
-                    this.playGame(initGame());
-                } else if (choixUser.equals("non")) {
-                    this.quitGame();
-                } else {
-                    throw new InvalidStringException();
-                }
-            } catch (InvalidStringException e){
-                view.messageError(e.getMessage());
+
+        try{
+            String choixUser = user.askString(view.messageRestart());
+            if(choixUser.equals("oui")) {
+                this.playGame(initGame());
+            } else if (choixUser.equals("non")) {
+                this.quitGame();
+            } else {
+                throw new InvalidStringException();
             }
-            catch (Exception e){
-                e.printStackTrace();
-            }
-        } while(true);
+        } catch (InvalidStringException e){
+            view.messageError(e.getMessage());
+            this.restartGame();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            this.restartGame();
+        }
     }
 
     //Quitter le jeu
     public void quitGame() {
-        view.messageNormal(view.getMessageQuitGame());
+        view.messageQuitGame();
         System.exit(0);
     }
 
-    // Vérifie entier compris dans intervale
+    // Vérifie int compris dans intervale
     private void validateIntChoice(int choice, int rangeMax) throws InvalidRangeException {
         if(choice < 1 || choice > rangeMax) {
             throw new InvalidRangeException(1, rangeMax);
