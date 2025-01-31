@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.InvalidPlayerType;
 import vue.*;
 
 import java.io.BufferedReader;
@@ -12,12 +13,6 @@ public abstract class BoardGame {
     protected int winCondition;
     protected Cell[][] board;
     protected View view = new View();
-    private final Player[] players;
-
-    // Constructeur
-    public BoardGame(int playersType) {
-        players = this.initializePlayers(playersType);
-    }
 
     // Initialiser le plateau de jeu
     public void initBoard() {
@@ -26,11 +21,6 @@ public abstract class BoardGame {
                 this.board[i][j] = new Cell();
             }
         }
-    }
-
-    // Retourne Player[]
-    public Player[] getPlayers() {
-        return players;
     }
 
     public Cell[][] getBoard() {
@@ -87,21 +77,6 @@ public abstract class BoardGame {
                     return new int[]{coordonneeX, coordonneeY};
                 }
             } while (true);
-        }
-    }
-
-    // Initialiser les joueurs
-    private Player[] initializePlayers(int gameType) {
-        switch (gameType) {
-            case 1:
-                return new Player[]{ new HumanPlayer("X"), new HumanPlayer("O") };
-            case 2:
-                return new Player[]{ new HumanPlayer("X"), new ArtificialPlayer("O") };
-            case 3:
-                return new Player[]{ new ArtificialPlayer("X"), new ArtificialPlayer("O") };
-            default:
-                view.messageError("PAS COMPRIS");
-                return new Player[]{};
         }
     }
 

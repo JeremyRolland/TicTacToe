@@ -1,9 +1,9 @@
-import controller.Controller;
+import controller.stateMachine;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
-        Controller app = new Controller();
-        app.playGame(app.initGame());
+        stateMachine app = new stateMachine();
+        app.start();
     }
 }

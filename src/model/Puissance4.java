@@ -1,5 +1,7 @@
 package model;
 
+import exceptions.InvalidPlayerType;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,8 +9,7 @@ import java.io.InputStreamReader;
 public class Puissance4 extends BoardGame {
 
     // Constructeur qui initialise le plateau
-    public Puissance4(int playersType) {
-        super(playersType);
+    public Puissance4() {
         this.size = 6;
         this.board = new Cell[size][size + 1];
         super.initBoard();

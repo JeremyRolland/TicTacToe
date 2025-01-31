@@ -5,6 +5,7 @@ public class View {
     private final String ANSI_BLACK = "\u001B[30m";
     private final String ANSI_GREEN = "\u001B[32m";
     private final String ANSI_BLUE = "\u001B[34m";
+    private final String ANSI_PURPLE = "\u001B[35m";
 
     //Affiche le plateau de jeu
     public void display(String[][] board) {
@@ -57,6 +58,11 @@ public class View {
     // Message en police rouge
     public void messageError(String message) {
         System.err.println(message);
+    }
+
+    // Message machine a état
+    public void messageState(String message) {
+        System.out.println(ANSI_PURPLE + message);
     }
 
     // Annonce vainqueur

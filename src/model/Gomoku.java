@@ -1,10 +1,11 @@
 package model;
 
+import exceptions.InvalidPlayerType;
+
 public class Gomoku extends BoardGame{
 
     // Constructeur
-    public Gomoku(int playersType) {
-        super(playersType);
+    public Gomoku() {
         this.size = 15;
         this.board = new Cell[size][size];
         super.initBoard();
