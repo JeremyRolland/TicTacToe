@@ -28,6 +28,7 @@ public class ArtificialPlayer extends Player {
             }
     }
 
+    // Génère coup aléatoire
     public int[] generateRandomPosition(Cell[][] board) {
         int position = -1, coordonneeX = -1, coordonneeY = -1;
         do {

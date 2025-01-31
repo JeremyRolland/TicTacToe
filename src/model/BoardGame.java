@@ -12,10 +12,9 @@ public abstract class BoardGame {
     protected int winCondition;
     protected Cell[][] board;
     protected View view = new View();
-    protected Player currentPlayer;
     private final Player[] players;
 
-
+    // Constructeur
     public BoardGame(int playersType) {
         players = this.initializePlayers(playersType);
     }
@@ -29,6 +28,7 @@ public abstract class BoardGame {
         }
     }
 
+    // Retourne Player[]
     public Player[] getPlayers() {
         return players;
     }
@@ -47,8 +47,7 @@ public abstract class BoardGame {
         return stringCells;
     }
 
-
-
+    // Retourne coup du joueur
     public int[] getMoveFromPlayer(Player player) {
         int coordonneeX = -1, coordonneeY = -1;
         // Joueur humain

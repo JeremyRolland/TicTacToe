@@ -12,12 +12,13 @@ public class Controller {
     private final View view;
     private final InteractionUtilisateur user;
 
+    // Constructeur
     public Controller() {
         this.view = new View();
         this.user = new InteractionUtilisateur();
     }
 
-    // Initialise le type de partie
+    // Initialise la partie
     public BoardGame initGame() {
 
         int maxPLayers = 3;
@@ -26,7 +27,6 @@ public class Controller {
             int userChoiceGame = user.askInt(view.getMessageChoiceGame());
             this.validateIntChoice(userChoiceGame, maxGames);
             int userChoicePlayer = user.askInt(view.getMesaggeChoicePlayer());
-
             this.validateIntChoice(userChoicePlayer, maxPLayers);
             switch (userChoiceGame) {
                 case 1:
@@ -51,6 +51,7 @@ public class Controller {
         return null;
     }
 
+    // Controle le déroulement d'une partie
     public void playGame(BoardGame game) {
 
         int[] position;
@@ -71,6 +72,7 @@ public class Controller {
         }
     }
 
+    // Gère fin de partie
     public void restartGame() {
 
         try{

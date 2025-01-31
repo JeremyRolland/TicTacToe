@@ -9,10 +9,6 @@ public class InteractionUtilisateur {
     private final View view = new View();
     private final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    // Constructeur
-    public InteractionUtilisateur() {
-    }
-
     // Demande un int à l'utilisateur
     public int askInt(String message) throws Exception {
         view.messageNormal(message);
