@@ -1,4 +1,4 @@
-package model;
+package model.players;
 
 public class HumanPlayer extends Player {
 

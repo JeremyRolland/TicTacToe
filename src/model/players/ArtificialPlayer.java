@@ -1,6 +1,7 @@
-package model;
+package model.players;
 
 import exceptions.InvalidArtificialDifficulty;
+import model.Cell;
 
 public class ArtificialPlayer extends Player {
 

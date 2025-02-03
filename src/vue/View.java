@@ -8,7 +8,7 @@ public class View {
     private final String ANSI_PURPLE = "\u001B[35m";
 
     //Affiche le plateau de jeu
-    public void display(String[][] board) {
+    public void displayBoard(String[][] board) {
         for (String[] strings : board) {
             for (String string : strings) {
                 System.out.print(ANSI_BLUE + "| " + string + " ");

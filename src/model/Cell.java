@@ -1,5 +1,7 @@
 package model;
 
+import model.players.Player;
+
 public class Cell {
 
     private String representation = " ";

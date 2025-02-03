@@ -1,12 +1,13 @@
 package controller;
 
-import exceptions.InvalidPlayerType;
-import exceptions.InvalidRangeException;
 import exceptions.InvalidStringException;
-import model.*;
+import model.games.Gomoku;
+import model.games.Puissance4;
+import model.games.TicTacToe;
+import model.players.ArtificialPlayer;
+import model.players.HumanPlayer;
+import model.players.Player;
 import vue.*;
-
-import java.io.InvalidClassException;
 
 public class GameController {
 
@@ -21,7 +22,8 @@ public class GameController {
         this.user = new InteractionUtilisateur();
     }
 
-    public void pickGame() throws Exception {
+    // Permet sélection jeu
+    public void pickGame() {
         int maxGame = 3;
         int userChoiceGame = user.askInt(view.getMessageChoiceGame());
         if(this.validateIntChoice(userChoiceGame, maxGame)) {
@@ -41,7 +43,8 @@ public class GameController {
         }
     }
 
-    public void pickPlayers() throws Exception {
+    // Permet sélection joueurs
+    public void pickPlayers() {
         int maxPLayersType = 3;
         int userChoicePlayer = user.askInt(view.getMesaggeChoicePlayer());
         if(this.validateIntChoice(userChoicePlayer, maxPLayersType)) {
@@ -57,12 +60,12 @@ public class GameController {
         int[] position;
         Player currentPlayer = this.players[0];
 
-        view.display(boardGame.boardToString());
+        view.displayBoard(boardGame.getBoard().convertString());
 
         while (true) {
             position = boardGame.getMoveFromPlayer(currentPlayer);
-            boardGame.getBoard()[position[0]][position[1]].setOwner(currentPlayer);
-            view.display(boardGame.boardToString());
+            boardGame.getBoard().setCellOwner(position, currentPlayer);
+            view.displayBoard(boardGame.getBoard().convertString());
             if (boardGame.isOver(boardGame.getBoard(), currentPlayer)) {
                 view.announceWinner(currentPlayer.getName());
                 break;
@@ -107,7 +110,7 @@ public class GameController {
     }
 
     // Initialiser les joueurs
-    private void initPlayers(int choice) throws InvalidPlayerType {
+    private void initPlayers(int choice) {
         switch (choice) {
             case 1:
                 this.players = new Player[]{new HumanPlayer("X"), new HumanPlayer("O")};

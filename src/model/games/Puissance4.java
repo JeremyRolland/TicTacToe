@@ -1,6 +1,7 @@
-package model;
+package model.games;
 
-import exceptions.InvalidPlayerType;
+import controller.BoardGame;
+import model.players.Player;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,10 +11,7 @@ public class Puissance4 extends BoardGame {
 
     // Constructeur qui initialise le plateau
     public Puissance4() {
-        this.size = 6;
-        this.board = new Cell[size][size + 1];
-        super.initBoard();
-        this.winCondition = 4;
+        super(6,7,4);
     }
 
     @Override
@@ -29,8 +27,8 @@ public class Puissance4 extends BoardGame {
                     //On s'assure que c'est un nombre
                     coordonneeY = Integer.parseInt(br.readLine());
                     //Check case vide
-                    for(int i = this.board.length - 1; i > 0; i--) {
-                        if(this.board[i][coordonneeY].getOwner() == null) {
+                    for(int i = board.getRowSize() - 1; i > 0; i--) {
+                        if(board.getCellOwner(i,coordonneeY) == null) {
                             return new int[]{i, coordonneeY};
                         }
                     }
@@ -38,7 +36,7 @@ public class Puissance4 extends BoardGame {
                 } catch (NumberFormatException e) {
                     view.messageError("Erreur: Veuillez entrer un nombre entier.");
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    view.messageError("Erreur: Veuillez rester dans la grille (min = 0 et max = " + (this.board.length - 1) + ")");
+                    view.messageError("Erreur: Veuillez rester dans la grille (min = 0 et max = " + (board.getRowSize() - 1) + ")");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -46,9 +44,9 @@ public class Puissance4 extends BoardGame {
             // Joueur artificiel
         } else {
             do {
-                coordonneeY = (int) (Math.random() * board[0].length);
-                for(int i = this.board.length - 1; i > 0; i--) {
-                    if(board[i][coordonneeY].getOwner() == null) {
+                coordonneeY = (int) (Math.random() * board.getColSize());
+                for(int i = board.getRowSize() - 1; i > 0; i--) {
+                    if(board.getCellOwner(i,coordonneeY) == null) {
                         System.out.println("position jouée: [" + i + "," + coordonneeY + "].");
                         return new int[]{i, coordonneeY};
                     }

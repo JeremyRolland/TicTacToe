@@ -12,7 +12,7 @@ public class stateMachine {
         this.currentState = State.INITIAL;
     }
 
-    public void start() throws Exception {
+    public void start() {
         this.pickGame();
         this.pickPlayer();
         this.playGame();
@@ -23,7 +23,7 @@ public class stateMachine {
         }
     }
 
-    private void pickGame() throws Exception {
+    private void pickGame() {
         if(currentState == State.INITIAL || currentState == State.RESTART_GAME) {
             currentState = State.PICK_GAME;
             view.messageState("Current state: " + currentState);
@@ -33,7 +33,7 @@ public class stateMachine {
         }
     }
 
-    private void pickPlayer() throws Exception {
+    private void pickPlayer() {
         if(currentState == State.PICK_GAME) {
             currentState = State.PICK_PLAYER;
             view.messageState("Current state: " + currentState);

@@ -2,23 +2,31 @@ package vue;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 
 public class InteractionUtilisateur {
 
     private final View view = new View();
     private final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    Scanner scanner = new Scanner(System.in);
 
-    // Demande un int à l'utilisateur
-    public int askInt(String message) throws Exception {
-        view.messageNormal(message);
-        return Integer.parseInt(br.readLine());
+    public int askInt(String message) {
+        int answer = -1;
+        try{
+            view.messageNormal(message);
+            answer = scanner.nextInt();
+        } catch(InputMismatchException e) {
+            view.messageError("Erreur: Veuiller entrer un nombre entier");
+            scanner.next();
+        }
+        return answer;
     }
 
-    // Demande un String à l'utilisateur
-    public String askString(String message) throws Exception {
+    public String askString(String message) {
         view.messageNormal(message);
-        return br.readLine();
+        return scanner.next();
     }
 
 }

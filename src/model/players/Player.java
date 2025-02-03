@@ -1,4 +1,4 @@
-package model;
+package model.players;
 
 abstract public class Player {
 

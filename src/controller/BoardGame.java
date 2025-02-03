@@ -1,6 +1,7 @@
-package model;
+package controller;
 
-import exceptions.InvalidPlayerType;
+import model.Board;
+import model.players.*;
 import vue.*;
 
 import java.io.BufferedReader;
@@ -9,37 +10,18 @@ import java.io.InputStreamReader;
 
 public abstract class BoardGame {
 
-    protected int size;
     protected int winCondition;
-    protected Cell[][] board;
     protected View view = new View();
+    protected Board board;
 
-    // Initialiser le plateau de jeu
-    public void initBoard() {
-        for (int i = 0; i < this.board.length; i++) {
-            for (int j = 0; j < this.board[0].length; j++) {
-                this.board[i][j] = new Cell();
-            }
-        }
-    }
-
-    public Cell[][] getBoard() {
-        return board;
-    }
-    // Retourne un tableau de representation des Cells
-    public String[][] boardToString() {
-        String[][] stringCells = new String[this.board.length][this.board[0].length];
-        for (int i = 0; i < this.board.length; i++) {
-            for (int j = 0; j < this.board[0].length; j++) {
-                stringCells[i][j] = this.board[i][j].getRepresentation();
-            }
-        }
-        return stringCells;
+    public BoardGame(int row, int col, int winCondition) {
+        board = new Board(row, col);
+        this.winCondition = winCondition;
     }
 
     // Retourne coup du joueur
     public int[] getMoveFromPlayer(Player player) {
-        int coordonneeX = -1, coordonneeY = -1;
+        int row = -1, col = -1;
         // Joueur humain
         if (player instanceof HumanPlayer) {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -48,20 +30,20 @@ public abstract class BoardGame {
                     view.messageNormal("Entrer une coordonnée [x][y]");
                     view.askCoordinate('x');
                     //On s'assure que c'est un nombre
-                    coordonneeX = Integer.parseInt(br.readLine());
+                    row = Integer.parseInt(br.readLine());
                     view.askCoordinate('y');
                     //On s'assure que c'est un nombre
-                    coordonneeY = Integer.parseInt(br.readLine());
+                    col = Integer.parseInt(br.readLine());
                     //Check case vide
-                    if(board[coordonneeX][coordonneeY].getOwner() == null) {
-                        return new int[]{coordonneeX, coordonneeY};
+                    if(board.getCellOwner(row,col) == null) {
+                        return new int[]{row, col};
                     } else {
                         view.messageError("Erreur: Veuillez entrer une coordonnée qui n'est pas déjà utilisée");
                     }
                 } catch (NumberFormatException e) {
                     view.messageError("Erreur: Veuillez entrer un nombre entier.");
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    view.messageError("Erreur: Veuillez rester dans la grille (min = 0 et max = " + (board.length - 1) + ")");
+                    view.messageError("Erreur: Veuillez rester dans la grille (min = 0 et max = " + (board.getRowSize() - 1) + ")");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -69,32 +51,34 @@ public abstract class BoardGame {
         // Joueur artificiel
         } else {
             do {
-                coordonneeX = (int) (Math.random() * board.length);
-                coordonneeY = (int) (Math.random() * board.length);
+                row = (int) (Math.random() * board.getRowSize());
+                col = (int) (Math.random() * board.getColSize());
                 //Transforme coordonnée 2D en 1D
-                if(board[coordonneeX][coordonneeY].getOwner() == null) {
-                    System.out.println("position jouée: [" + coordonneeX + "," + coordonneeY + "].");
-                    return new int[]{coordonneeX, coordonneeY};
+                if(board.getCellOwner(row,col) == null) {
+                    System.out.println("position jouée: [" + row + "," + col + "].");
+                    return new int[]{row, col};
                 }
             } while (true);
         }
     }
 
-    // Vérifie fin de partie
-    public boolean isOver(Cell[][] board, Player player) {
+    public Board getBoard() {
+        return board;
+    }
+
+    public boolean isOver(Board board, Player player) {
 
         if(this.hasWinner(board, player,this.winCondition) ) {
             return true;
         } else return this.isBoardFull();
     }
-
-    // Vérifie si plateau complet
+    
     private boolean isBoardFull() {
         boolean isFull = true;
 
-        for (Cell[] cells : this.board) {
-            for (Cell cell : cells) {
-                if (cell.getOwner() == null) {
+        for(int i = 0; i < board.getRowSize(); i++) {
+            for(int j = 0; j < board.getColSize(); j++) {
+                if(board.getCellOwner(i,j) == null) {
                     isFull = false;
                     break;
                 }
@@ -109,9 +93,9 @@ public abstract class BoardGame {
     }
 
     // Vérifie si un joueur a gagné
-    private boolean hasWinner(Cell[][] board, Player player, int winCondition) {
-        int rows = board.length;
-        int cols = board[0].length;
+    private boolean hasWinner(Board board, Player player, int winCondition) {
+        int rows = board.getRowSize();
+        int cols = board.getColSize();
 
         // Vérification des lignes
         for (int i = 0; i < rows; i++) {
@@ -140,12 +124,12 @@ public abstract class BoardGame {
     }
 
     // Méthode auxiliaire pour vérifier une direction spécifique
-    private static boolean checkDirection(Cell[][] board, Player player, int winCondition, int startRow, int startCol, int rowDir, int colDir) {
+    private static boolean checkDirection(Board board, Player player, int winCondition, int startRow, int startCol, int rowDir, int colDir) {
         int count = 0;
         for (int i = 0; i < winCondition; i++) {
             int newRow = startRow + i * rowDir;
             int newCol = startCol + i * colDir;
-            if (board[newRow][newCol].getOwner() == player) {
+            if (board.getCellOwner(newRow,newCol) == player) {
                 count++;
                 if (count == winCondition) {
                     return true;
