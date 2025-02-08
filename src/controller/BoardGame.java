@@ -92,36 +92,40 @@ public abstract class BoardGame {
         return false;
     }
 
-    // Vérifie si un joueur a gagné
     private boolean hasWinner(Board board, Player player, int winCondition) {
         int rows = board.getRowSize();
         int cols = board.getColSize();
 
         // Vérification des lignes
         for (int i = 0; i < rows; i++) {
-            if (checkDirection(board, player, winCondition, i, 0, 0, 1)) return true; // Horizontal
+            for (int j = 0; j <= cols - winCondition; j++) { // ajout du parcours des colonnes
+                if (checkDirection(board, player, winCondition, i, j, 0, 1)) return true; // Horizontal
+            }
         }
 
         // Vérification des colonnes
         for (int j = 0; j < cols; j++) {
-            if (checkDirection(board, player, winCondition, 0, j, 1, 0)) return true; // Vertical
+            for (int i = 0; i <= rows - winCondition; i++) { // ajout du parcours des colonnes
+                if (checkDirection(board, player, winCondition, i, j, 1, 0)) return true; // Vertical
+            }
         }
 
         // Vérification des diagonales descendantes
         for (int i = 0; i <= rows - winCondition; i++) {
-            for (int j = 0; j <= cols - winCondition; j++) {
+            for (int j = 0; j <= cols - winCondition; j++) { // ajout du parcours des colonnes
                 if (checkDirection(board, player, winCondition, i, j, 1, 1)) return true; // Diagonale descendante
             }
         }
 
         // Vérification des diagonales ascendantes
         for (int i = winCondition - 1; i < rows; i++) {
-            for (int j = 0; j <= cols - winCondition; j++) {
+            for (int j = 0; j <= cols - winCondition; j++) { // ajout du parcours des colonnes
                 if (checkDirection(board, player, winCondition, i, j, -1, 1)) return true; // Diagonale ascendante
             }
         }
         return false;
     }
+
 
     // Méthode auxiliaire pour vérifier une direction spécifique
     private static boolean checkDirection(Board board, Player player, int winCondition, int startRow, int startCol, int rowDir, int colDir) {
@@ -129,7 +133,8 @@ public abstract class BoardGame {
         for (int i = 0; i < winCondition; i++) {
             int newRow = startRow + i * rowDir;
             int newCol = startCol + i * colDir;
-            if (board.getCellOwner(newRow,newCol) == player) {
+            if (newRow >= 0 && newRow < board.getRowSize() && newCol >= 0 && newCol < board.getColSize() && // check bordures car P4 pas carré
+                    board.getCellOwner(newRow, newCol) == player) {
                 count++;
                 if (count == winCondition) {
                     return true;
@@ -140,6 +145,7 @@ public abstract class BoardGame {
         }
         return false;
     }
+
 
 }
 

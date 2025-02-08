@@ -52,7 +52,4 @@ public class Board {
         return this.board[row][col].getOwner();
     }
 
-    public Cell[][] getBoard() {
-        return board;
-    }
 }
